@@ -34,17 +34,13 @@ export default function AddressForm() {
             fullWidth
           >
           <MenuItem value={10}>Sala</MenuItem>
-          <MenuItem value={10}>Varanda</MenuItem>
-          <MenuItem value={20}>Quarto</MenuItem>
-          <MenuItem value={30}>Corredor</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
-          <MenuItem value={30}>Banheiro</MenuItem>
+          <MenuItem value={20}>Varanda</MenuItem>
+          <MenuItem value={30}>Quarto</MenuItem>
+          <MenuItem value={40}>Corredor</MenuItem>
+          <MenuItem value={50}>Cozinha</MenuItem>
+          <MenuItem value={60}>Copa</MenuItem>
+          <MenuItem value={70}>Banheiro</MenuItem>
+          <MenuItem value={80}>Area de Serviço</MenuItem>
           
           </Select>
 
