@@ -12,9 +12,12 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddressForm from './AddressForm';
+import Dimensions from './Dimensions';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import TypeB from './TypeB';
+import TypeC from './TypeC';
+import TypeF from './TypeF';
 
 function Copyright() {
   return (
@@ -34,16 +37,14 @@ const steps = ['Dimensões Residência - Ilumninação e TUG', 'Equipamentos - T
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <Dimensions />;
     case 1:
-      return <PaymentForm />;
+      return <TypeB />;
     case 2:
-      return <AddressForm />;
+      return <TypeC />;
     case 3:
-      return <AddressForm />;
+      return <TypeF />;
     case 4:
-      return <AddressForm />;
-    case 5:
       return <Review />;
     default:
       throw new Error('Unknown step');
@@ -77,7 +78,7 @@ export default function Checkout() {
       >
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+          Projetos elétricos residênciais
           </Typography>
         </Toolbar>
       </AppBar>
