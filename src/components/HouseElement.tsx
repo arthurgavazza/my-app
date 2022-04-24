@@ -5,7 +5,7 @@ import { IElement } from "./Dimensions";
 
 
 export default function HouseElement(props:any){
-    const [element,setElement] = useState<IElement>({})
+    const [element,setElement] = useState<IElement>({type:ElementTypes.Sala,light:0,TUG:0,area:0,width:0,height:0})
     const changeState = (elementData:IElement,index: number) => {
           setElement(elementData)
           props.setElementState(elementData,index)
@@ -80,6 +80,7 @@ export default function HouseElement(props:any){
             fullWidth
             autoComplete="given-name"
             value={element.height && element.width ? element.height*element.width : 0}
+            onChange= {(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,area:parseFloat(event.target.value)},props.index)}
             />
         </Grid> 
 
@@ -92,6 +93,7 @@ export default function HouseElement(props:any){
             fullWidth
             autoComplete="given-name"
             value={(element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,TUG:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
 
@@ -104,6 +106,7 @@ export default function HouseElement(props:any){
             fullWidth
             autoComplete="given-name"
             value= {(element.height && element.width && element.type)? calculateHouseElementLightPower(element).light : 0}
+            onChange = {(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,light:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
         <Grid item xs={1}>
