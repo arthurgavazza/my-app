@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import HouseElement from './HouseElement';
 import CloseIcon from '@mui/icons-material/Close';
+import { ElementTypes } from '../core/data/houseElementPower';
 
 const IndexDiv = styled('div')({
   color: 'darkslategray',
@@ -19,16 +20,7 @@ const IndexDiv = styled('div')({
   justifySelf: 'center'
 });
 
-export enum ElementTypes {
-  Sala = 'Sala',
-  Varanda= 'Varanda',
-  Quarto = 'Quarto',
-  Corredor= 'Corredor',
-  Cozinha = 'Cozinha',
-  Copa = 'Copa',
-  Banheiro = 'banheiro',
-  AreaServico ='Área de serviço'
-}
+
 
 export interface IElement  {
   area?:number

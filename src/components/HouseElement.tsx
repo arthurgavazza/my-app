@@ -1,6 +1,7 @@
 import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ElementTypes, IElement } from "./Dimensions";
+import { calculateHouseElementLightPower, calculateHouseElementTUGNumber, ElementTypes } from "../core/data/houseElementPower";
+import { IElement } from "./Dimensions";
 
 
 export default function HouseElement(props:any){
@@ -11,7 +12,7 @@ export default function HouseElement(props:any){
     }
 
     useEffect(() => {
-       console.log(element,"I CHANGED")
+       //console.log(element,"I CHANGED")
        setElement(props.initialState)
     },[props])
     return (
@@ -44,13 +45,13 @@ export default function HouseElement(props:any){
         <Grid item xs={1}>
           <InputLabel id="Comprimento)" shrink={true} >Comprimento (m)</InputLabel> 
             <TextField
-            type = "numeric"
+            type='text'
             required
             id="Comprimento"
             name="Comprimento"
             fullWidth
             autoComplete="given-name"
-            value = {element.width || 0}
+            value = {element.width?.toFixed(2).toString() || "0"}
             onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,width:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
@@ -63,7 +64,7 @@ export default function HouseElement(props:any){
             name="Largura"
             fullWidth
             autoComplete="given-name"
-            value = {element.height || 0}
+            value = {element.height?.toFixed(2).toString() || "0"}
             onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,height:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
@@ -90,6 +91,7 @@ export default function HouseElement(props:any){
             name="TUG"
             fullWidth
             autoComplete="given-name"
+            value={(element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0}
             />
         </Grid>
 
@@ -101,6 +103,7 @@ export default function HouseElement(props:any){
             name="Ilumin"
             fullWidth
             autoComplete="given-name"
+            value= {(element.height && element.width && element.type)? calculateHouseElementLightPower(element).light : 0}
             />
         </Grid>
         <Grid item xs={1}>

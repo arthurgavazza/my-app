@@ -1,6 +1,7 @@
 import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ElementTypes, IElement } from "./Dimensions";
+import { ElementTypes } from "../core/data/houseElementPower";
+import { IElement } from "./Dimensions";
 
 
 export default function EquipmentElement(props:any){
