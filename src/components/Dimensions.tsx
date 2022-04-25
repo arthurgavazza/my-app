@@ -29,6 +29,7 @@ export interface IElement  {
   width?:number
   TUG?:number
   light?:number
+  perimeter?: number
 }
 
 export default function Dimensions() {
@@ -67,12 +68,11 @@ export default function Dimensions() {
       console.log(elements,"my elements rerender")
       return element && (
         <Grid container direction="row" key={index}>
-        <HouseElement key={index} setElementState={setElementState} index={index} initialState={element} />
-        <Grid item>
-        <IconButton aria-label="remover" onClick={() => onRemoveClick(index)}>
-        <CloseIcon/>
-        </IconButton>
+        <Grid item sx={{ width: 1 }}>
+        <HouseElement key={index} onRemoveClick={onRemoveClick} setElementState={setElementState} index={index} initialState={element} />
         </Grid>
+      
+      
         </Grid>
       )
     })}

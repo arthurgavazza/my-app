@@ -1,8 +1,8 @@
-import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent } from "@mui/material";
+import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import { calculateHouseElementLightPower, calculateHouseElementTUGNumber, ElementTypes } from "../core/data/houseElementPower";
 import { IElement } from "./Dimensions";
-
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function HouseElement(props:any){
     const [element,setElement] = useState<IElement>({type:ElementTypes.Sala,light:0,TUG:0,area:0,width:0,height:0})
@@ -42,7 +42,7 @@ export default function HouseElement(props:any){
 
         </Grid>
         
-        <Grid item xs={1}>
+        <Grid item xs={true}>
           <InputLabel id="Comprimento)" shrink={true} >Comprimento (m)</InputLabel> 
             <TextField
             type='text'
@@ -56,7 +56,7 @@ export default function HouseElement(props:any){
             />
         </Grid>
 
-        <Grid item xs={1}>
+        <Grid item xs={true}>
           <InputLabel id="Largura" shrink={true}>Largura (m)</InputLabel> 
             <TextField
             required
@@ -69,7 +69,22 @@ export default function HouseElement(props:any){
             />
         </Grid>
 
-        <Grid item xs={1}>
+        <Grid item xs={true}>
+          <InputLabel id="Perimetro" shrink={true}>Perímetro(m)</InputLabel>
+            <TextField
+            disabled 
+            defaultValue="Disabled"
+            required
+            id="Perimetro"
+            name="Perimetro"
+            fullWidth
+            autoComplete="given-name"
+            value={element.height && element.width ? 2*(element.height + element.width) : 0}
+            onChange= {(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,perimeter:parseFloat(event.target.value)},props.index)}
+            />
+        </Grid> 
+
+        <Grid item xs={true}>
           <InputLabel id="Area" shrink={true}>Área (m²)</InputLabel>
             <TextField
             disabled 
@@ -84,7 +99,7 @@ export default function HouseElement(props:any){
             />
         </Grid> 
 
-        <Grid item xs={1}>
+        <Grid item xs={true}>
           <InputLabel id="TUG (" shrink={true}>TUG (U)</InputLabel>
             <TextField
             required
@@ -97,7 +112,7 @@ export default function HouseElement(props:any){
             />
         </Grid>
 
-        <Grid item xs={1}>
+        <Grid item xs={true}>
           <InputLabel id="Ilumin" shrink={true}>Iluminação (W)</InputLabel>
             <TextField
             required
@@ -109,7 +124,14 @@ export default function HouseElement(props:any){
             onChange = {(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,light:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
-        <Grid item xs={1}>
+
+
+      <Grid item xs={1} container justifyContent="center" alignItems="center" >
+        <Grid item>
+        <IconButton aria-label="remover" onClick={() => props.onRemoveClick(props.index)}>
+        <CloseIcon/>
+        </IconButton>
+        </Grid>
       </Grid> 
 
       </Grid>
