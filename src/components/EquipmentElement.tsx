@@ -1,110 +1,123 @@
-import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent } from "@mui/material";
+import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ElementTypes } from "../core/data/houseElementPower";
-import { IElement } from "./Dimensions";
-
+import CloseIcon from '@mui/icons-material/Close';
+import { IEquipmentElement } from "./TypeB";
+const Equipments = {
+  Chuveiro: 'Chuveiro',
+  Torneira: 'Torneira', 
+  Aquecedor: 'Aquecedor',
+  Ferro: 'Ferro'
+}
 
 export default function EquipmentElement(props:any){
-    const [element,setElement] = useState<IElement>({})
-    const changeState = (elementData:IElement,index: number) => {
+    const [element,setElement] = useState<IEquipmentElement>({type:Equipments.Chuveiro,power:0, quantity:0 })
+    const changeState = (elementData:IEquipmentElement,index: number) => {
           setElement(elementData)
           props.setElementState(elementData,index)
     }
 
     useEffect(() => {
-       console.log(element,"I CHANGED")
+       //console.log(element,"I CHANGED")
        setElement(props.initialState)
     },[props])
     return (
         <Grid container  direction="row" spacing={3}>
 
         <Grid item xs={3} sm={3} > 
-          <InputLabel id="TipoComodo">Tipo Cômodo</InputLabel>
+          <InputLabel id="Equipamento">Equipamento</InputLabel>
           <Select
             required
-            onChange={ (event:SelectChangeEvent) => changeState({type:event.target.value as ElementTypes},props.index)}
-            labelId="TipoComodo"
-            name="TipoComodo"
+            onChange={ (event:SelectChangeEvent) => changeState({type:event.target.value},props.index)}
+            labelId="Equipamento"
+            name="Equipamento"
             fullWidth
             value={element.type || ""}
             
           >
-          <MenuItem value={ElementTypes.Sala}>Sala</MenuItem>
-          <MenuItem value={ElementTypes.Varanda}>Varanda</MenuItem>
-          <MenuItem value={ElementTypes.Quarto}>Quarto</MenuItem>
-          <MenuItem value={ElementTypes.Corredor}>Corredor</MenuItem>
-          <MenuItem value={ElementTypes.Cozinha}>Cozinha</MenuItem>
-          <MenuItem value={ElementTypes.Copa}>Copa</MenuItem>
-          <MenuItem value={ElementTypes.Banheiro}>Banheiro</MenuItem>
-          <MenuItem value={ElementTypes.AreaServico}>Area de Serviço</MenuItem>
+          <MenuItem value={Equipments.Chuveiro}>Chuveiro</MenuItem>
+          <MenuItem value={Equipments.Torneira}>Torneira</MenuItem>
+          <MenuItem value={Equipments.Aquecedor}>Aquecedor de água</MenuItem>
+          <MenuItem value={Equipments.Ferro}>Ferro elétrico</MenuItem>
           
           </Select>
 
         </Grid>
         
-        <Grid item xs={1}>
-          <InputLabel id="Comprimento)" shrink={true} >Comprimento (m)</InputLabel> 
+        <Grid item xs={true}>
+          <InputLabel id="Potencia" shrink={true} >Potência (W)</InputLabel> 
             <TextField
-            type = "numeric"
+            type='text'
             required
-            id="Comprimento"
-            name="Comprimento"
+            id="Potencia"
+            name="Potencia"
             fullWidth
             autoComplete="given-name"
-            value = {element.width || 0}
-            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,width:parseFloat(event.target.value)},props.index)}
+            value = {element.power?.toFixed(2).toString() || "0"}
+            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,power:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
 
-        <Grid item xs={1}>
-          <InputLabel id="Largura" shrink={true}>Largura (m)</InputLabel> 
+        <Grid item xs={true}>
+          <InputLabel id="quantidade" shrink={true} >quantidade (U)</InputLabel> 
             <TextField
+            type='text'
             required
-            id="Largura"
-            name="Largura"
+            id="quantidade"
+            name="quantidade"
             fullWidth
             autoComplete="given-name"
-            value = {element.height || 0}
-            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,height:parseFloat(event.target.value)},props.index)}
+            value = {element.quantity?.toFixed(0).toString() || "0"}
+            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,quantity:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
 
-        <Grid item xs={1}>
-          <InputLabel id="Area" shrink={true}>Área (m²)</InputLabel>
+        <Grid item xs={true}>
+          <InputLabel id="Fpotencia" shrink={true}>Fator de potência</InputLabel> 
+            <TextField
+            required
+            id="Fpotencia"
+            name="Fpotencia"
+            fullWidth
+            autoComplete="given-name"
+            value = {1}
+            />
+        </Grid>
+
+        <Grid item xs={true}>
+          <InputLabel id="Fdemanda" shrink={true}>Fator de demanda</InputLabel>
             <TextField
             disabled 
             defaultValue="Disabled"
             required
-            id="Area"
-            name="Area"
+            id="Fdemanda"
+            name="Fdemanda"
             fullWidth
             autoComplete="given-name"
-            value={element.height && element.width ? element.height*element.width : 0}
+            value={element.demandFactor || 0}
             />
         </Grid> 
 
-        <Grid item xs={1}>
-          <InputLabel id="TUG (" shrink={true}>TUG (U)</InputLabel>
+        <Grid item xs={true}>
+          <InputLabel id="demanda" shrink={true}>Demanda</InputLabel>
             <TextField
+            disabled 
+            defaultValue="Disabled"
             required
-            id="TUG"
-            name="TUG"
+            id="demanda"
+            name="demanda"
             fullWidth
             autoComplete="given-name"
+            value={(element.demandFactor && element.power && element.quantity) ? (element.demandFactor * element.power * element.quantity).toFixed(2) :0}
             />
         </Grid>
 
-        <Grid item xs={1}>
-          <InputLabel id="Ilumin" shrink={true}>Iluminação (W)</InputLabel>
-            <TextField
-            required
-            id="Ilumin"
-            name="Ilumin"
-            fullWidth
-            autoComplete="given-name"
-            />
+
+      <Grid item xs={1} container justifyContent="center" alignItems="center" >
+        <Grid item>
+        <IconButton aria-label="remover" onClick={() => props.onRemoveClick(props.index)}>
+        <CloseIcon/>
+        </IconButton>
         </Grid>
-        <Grid item xs={1}>
       </Grid> 
 
       </Grid>

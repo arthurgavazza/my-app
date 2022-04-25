@@ -6,15 +6,15 @@ function defaultDemand(numberOfDevices:number,installedLoad: number,Table:{numbe
     const maxValue = Math.max(...Table.map(table => table.numberOfDevices))
     const maxValueIndex = Table.map(table => table.numberOfDevices).indexOf(maxValue)
     if(numberOfDevices > maxValue){
-        return Table[maxValueIndex].demandFactor* installedLoad
+        return {demand: Table[maxValueIndex].demandFactor* installedLoad,demandFactor:Table[maxValueIndex].demandFactor }
     }
     else{
        const tableElement =  Table.filter(table => {
-            return table.numberOfDevices === table.demandFactor* installedLoad
+            return table.numberOfDevices === numberOfDevices
         })
 
         if(tableElement.length > 0){
-            return tableElement[0].demandFactor*installedLoad
+            return {demand: tableElement[0].demandFactor*installedLoad, demandFactor:tableElement[0].demandFactor }
         }else{
             throw new Error("Numero de dispositivos não incluso na tabela")
         }
