@@ -21,7 +21,7 @@ function defaultDemand(numberOfDevices:number,installedLoad: number,Table:{numbe
     }
 }
 
-export const DemandCalculator = {
+export const DemandCalculator: {[n:number]: Function} = {
 
     // Fatores de Demanda Referentes a Tomadas e Iluminação Residencial
     [EquipmentTypes.A]: function(installedLoad:number) {
@@ -100,8 +100,8 @@ export const DemandCalculator = {
     },*/
 
     //Estação de recarga para veículos elétricos (j) 
-    [EquipmentTypes.J]: function (installedLoad:number) {
-         return installedLoad
+    [EquipmentTypes.J]: function (numberOfDevices:number,installedLoad:number) {
+         return {demandFactor:1,demand:numberOfDevices*installedLoad}
     },
     
 }

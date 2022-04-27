@@ -2,23 +2,45 @@ import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent, IconB
 import { useEffect, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { IEquipmentElement } from "./TypeB";
-const Equipments = {
-  Chuveiro: 'Chuveiro',
-  Torneira: 'Torneira', 
-  Aquecedor: 'Aquecedor',
-  Ferro: 'Ferro'
+import { EquipmentTypes } from "../core/data/demandFactor";
+
+const Equipments : {[s:string]: {name: string, type: EquipmentTypes}}= {
+
+  Chuveiro: {name: 'Chuveiro Elétrico', type:EquipmentTypes.B},
+  Torneira: {name: 'Torneira' ,type:EquipmentTypes.B }, 
+  Aquecedor: {name: 'Aquecedor de água', type:EquipmentTypes.B }, 
+  Ferro: {name: 'Ferro Elétrico' , type:EquipmentTypes.B },
+
+  AquecedorCentral: {name: 'Aquecedor Central' , type:EquipmentTypes.C },
+  AquecedorAcumulacao: {name: 'Aquecedor de Acumulação' , type:EquipmentTypes.C },
+
+  Secadora: {name: 'Secadora de Roupa' , type:EquipmentTypes.D },
+  MaquinaLouca: {name: 'Máquina de Lavar Louça' , type:EquipmentTypes.D },
+  Microondas: {name: 'Forno Microondas' , type:EquipmentTypes.D },
+
+  Fogao: {name: 'Fogão Elétrico' , type:EquipmentTypes.E },
+
+  Motor: {name: 'Motor' , type:EquipmentTypes.G },
+
+  Hidromassagem: {name: 'Hidromassagem' , type:EquipmentTypes.I },
+
+  VeiculoEletrico: {name: 'Veículo Eletrico' , type:EquipmentTypes.J },
+
 }
 
+
 export default function EquipmentElement(props:any){
-    const [element,setElement] = useState<IEquipmentElement>({type:Equipments.Chuveiro,power:0, quantity:0 })
+    const [element,setElement] = useState<IEquipmentElement>({type:'',power:0, quantity:0 })
     const changeState = (elementData:IEquipmentElement,index: number) => {
-          setElement(elementData)
-          props.setElementState(elementData,index)
+          const elementCategory = elementData.type? Equipments[elementData.type].type : EquipmentTypes.B
+          setElement({...elementData,category:elementCategory})
+          props.setElementState({...elementData,category:elementCategory},index)
     }
 
     useEffect(() => {
        //console.log(element,"I CHANGED")
        setElement(props.initialState)
+       console.log(props)
     },[props])
     return (
         <Grid container  direction="row" spacing={3}>
@@ -34,11 +56,12 @@ export default function EquipmentElement(props:any){
             value={element.type || ""}
             
           >
-          <MenuItem value={Equipments.Chuveiro}>Chuveiro</MenuItem>
-          <MenuItem value={Equipments.Torneira}>Torneira</MenuItem>
-          <MenuItem value={Equipments.Aquecedor}>Aquecedor de água</MenuItem>
-          <MenuItem value={Equipments.Ferro}>Ferro elétrico</MenuItem>
-          
+            {Object.entries(Equipments).map((o,index) => {
+              return (
+                
+                <MenuItem key={index} value={o[0]}>{o[1].name}</MenuItem>
+              )
+            })}
           </Select>
 
         </Grid>

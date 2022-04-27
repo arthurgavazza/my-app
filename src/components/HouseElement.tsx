@@ -113,7 +113,20 @@ export default function HouseElement(props:any){
         </Grid>
 
         <Grid item xs={true}>
-          <InputLabel id="Ilumin" shrink={true}>Iluminação (W)</InputLabel>
+          <InputLabel id="POTTUG (" shrink={true}>Pot. TUG (VA)</InputLabel>
+            <TextField
+            required
+            id="POTTUG"
+            name="POTTUG"
+            fullWidth
+            autoComplete="given-name"
+            value={(element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,TUG:parseFloat(event.target.value)},props.index)}
+            />
+        </Grid>
+
+        <Grid item xs={true}>
+          <InputLabel id="Ilumin" shrink={true}>Iluminação (VA)</InputLabel>
             <TextField
             required
             id="Ilumin"

@@ -18,6 +18,8 @@ import Review from './Review';
 import TypeB from './TypeB';
 import TypeC from './TypeC';
 import TypeF from './TypeF';
+import Type from './TypeB';
+import { EquipmentTypes } from '../core/data/demandFactor';
 
 function Copyright() {
   return (
@@ -39,9 +41,9 @@ function getStepContent(step: number) {
     case 0:
       return <Dimensions />;
     case 1:
-      return <TypeB />;
+      return <Type type={EquipmentTypes.B} />;
     case 2:
-      return <TypeC />;
+      return <Type  />;
     case 3:
       return <TypeF />;
     case 4:

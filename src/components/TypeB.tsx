@@ -30,34 +30,46 @@ export interface IEquipmentElement  {
  demand?: number,
  demandFactor?: number,
  type?: string
+ category?: EquipmentTypes
 }
 
-export default function Dimensions() {
+export default function Type(props:any) {
   const [elements,setElements] = useState<IEquipmentElement[]>([])
-  const [demandFactor,setDemandFactor] = useState<number>(0)
-  const [demand,setDemand] = useState<number>(0)
+  const [demandFactorPerType,setDemandFactorPerType] = useState<{[n: number]: {typeDemand: number,typeDemandFactor: number}}>({})
 
   const onAddClick = () => {
       setElements([...elements,{power: 0, quantity: 0}])    
   }
 
-  useEffect(() => {
-    console.log('recalc')
-   let totalPower = 0
-   let quantity = 0
-   elements.forEach(e => {
-        quantity += (e.quantity || 0)
-        totalPower += (e.power || 0)
-   })
-   const {demand,demandFactor} = (totalPower > 0 && quantity > 0)? DemandCalculator[EquipmentTypes.B](quantity,totalPower):
-   {demand:0,demandFactor:0}
-   setDemandFactor(demandFactor)
-   setDemand(demand)
-   
+  
 
-  },[elements])
+
+ useEffect(() => {
+  const processElements = (category:EquipmentTypes, demandFactors: {[n: number]: {typeDemand: number,typeDemandFactor: number}} ) => {
+    let typeElements = elements.filter(e => e.category && (e.category === category))
+    let totalPower = 0 
+    let quantity = 0
+    typeElements.forEach((element) => {
+      totalPower += (element.power || 0)
+      quantity += (element.quantity || 0)
+    })
+    const {demand: typeDemand,demandFactor: typeDemandFactor} = (totalPower > 0 && quantity > 0)? DemandCalculator[Number(category)](quantity,totalPower):
+    {demand:0,demandFactor:0}
+    console.log({typeDemand,typeDemandFactor,category,quantity,totalPower})
+    const newDemandFactorPerType = {...demandFactors}
+    newDemandFactorPerType[category] = {typeDemand,typeDemandFactor} 
+    console.log({newDemandFactorPerType,demandFactorPerType})
+    return newDemandFactorPerType
+  }
+    let demandFactorsObj = demandFactorPerType
+    Object.entries(EquipmentTypes).forEach( o => {
+       demandFactorsObj = processElements(o[1] as EquipmentTypes,demandFactorsObj);
+    })
+    setDemandFactorPerType({...demandFactorsObj})
+ },[elements])
 
   const setElementState = (state: IEquipmentElement,index: number) => {
+    console.log(demandFactorPerType)
         const currentElements = [...elements]
         currentElements[index] = state
         setElements(currentElements)
@@ -78,14 +90,12 @@ export default function Dimensions() {
       
      <Grid container direction="column" spacing={1}>
     {elements.map((element,index) => {
-      console.log(elements,"my elements rerender")
+      console.log(elements,demandFactorPerType,"my elements rerender")
       return element && (
         <Grid container direction="row" key={index}>
         <Grid item sx={{ width: 1 }}>
-        <EquipmentElement key={index}  demandFactor={demandFactor} onRemoveClick={onRemoveClick} setElementState={setElementState} index={index} initialState={{...element,demandFactor}} />
+        <EquipmentElement key={index} category={element.category}  demandFactor={demandFactorPerType[element.category || 0].typeDemandFactor} onRemoveClick={onRemoveClick} setElementState={setElementState} index={index} initialState={{...element,demandFactor: demandFactorPerType[element.category || 0].typeDemandFactor}} />
         </Grid>
-      
-      
         </Grid>
       )
     })}
