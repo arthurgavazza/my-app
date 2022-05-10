@@ -1,25 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { Select, MenuItem, InputLabel, styled, FormControl, SelectChangeEvent, Icon } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import HouseElement from './HouseElement';
-import CloseIcon from '@mui/icons-material/Close';
 import { ElementTypes } from '../core/data/houseElementPower';
-
-const IndexDiv = styled('div')({
-  color: 'darkslategray',
-  backgroundColor: 'aliceblue',
-  padding: 8,
-  borderRadius: 4,
-  alignSelf: 'center',
-  justifySelf: 'center'
-});
-
 
 
 export interface IElement  {
@@ -30,10 +15,9 @@ export interface IElement  {
   TUG?:number
   light?:number
   perimeter?: number
-  TUGPower?:number
 }
 
-export default function Dimensions() {
+export default function TypeG() {
   const [elements,setElements] = useState<IElement[]>([])
 
   const onAddClick = () => {
@@ -61,7 +45,7 @@ export default function Dimensions() {
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Dimensões Residência
+        Demanda Motores
       </Typography>
       
      <Grid container direction="column" spacing={1}>

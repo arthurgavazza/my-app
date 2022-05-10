@@ -1,7 +1,7 @@
 import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
-import { IEquipmentElement } from "./TypeB";
+import { IEquipmentElement } from "./Type";
 import { EquipmentTypes } from "../core/data/demandFactor";
 
 const Equipments : {[s:string]: {name: string, type: EquipmentTypes}}= {
@@ -20,7 +20,7 @@ const Equipments : {[s:string]: {name: string, type: EquipmentTypes}}= {
 
   Fogao: {name: 'Fogão Elétrico' , type:EquipmentTypes.E },
 
-  Motor: {name: 'Motor' , type:EquipmentTypes.G },
+  Arcondicionado: {name: 'Ar-condicionado' , type:EquipmentTypes.F },
 
   Hidromassagem: {name: 'Hidromassagem' , type:EquipmentTypes.I },
 

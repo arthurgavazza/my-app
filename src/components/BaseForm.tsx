@@ -15,11 +15,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Dimensions from './Dimensions';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
-import TypeB from './TypeB';
-import TypeC from './TypeC';
-import TypeF from './TypeF';
-import Type from './TypeB';
+import Type from './Type';
 import { EquipmentTypes } from '../core/data/demandFactor';
+import TypeG from './TypeG';
+
 
 function Copyright() {
   return (
@@ -41,13 +40,12 @@ function getStepContent(step: number) {
     case 0:
       return <Dimensions />;
     case 1:
-      return <Type type={EquipmentTypes.B} />;
+      return <Type />;
     case 2:
-      return <Type  />;
+      return <TypeG />;
     case 3:
-      return <TypeF />;
-    case 4:
       return <Review />;
+
     default:
       throw new Error('Unknown step');
   }

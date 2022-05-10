@@ -1,27 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import { Select, MenuItem, InputLabel, styled, FormControl, SelectChangeEvent, Icon } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CloseIcon from '@mui/icons-material/Close';
-import { ElementTypes } from '../core/data/houseElementPower';
 import EquipmentElement from './EquipmentElement';
 import { DemandCalculator } from '../core/data/demandCalculator';
 import { EquipmentTypes } from '../core/data/demandFactor';
-
-const IndexDiv = styled('div')({
-  color: 'darkslategray',
-  backgroundColor: 'aliceblue',
-  padding: 8,
-  borderRadius: 4,
-  alignSelf: 'center',
-  justifySelf: 'center'
-});
-
 
 
 export interface IEquipmentElement  {
@@ -33,10 +17,9 @@ export interface IEquipmentElement  {
  category?: EquipmentTypes
 }
 
-export default function Type(props:any) {
+export default function Type() {
   const [elements,setElements] = useState<IEquipmentElement[]>([])
   const [demandFactorPerType,setDemandFactorPerType] = useState<{[n: number]: {typeDemand: number,typeDemandFactor: number}}>({})
-
   const onAddClick = () => {
       setElements([...elements,{power: 0, quantity: 0}])    
   }
@@ -47,6 +30,10 @@ export default function Type(props:any) {
  useEffect(() => {
   const processElements = (category:EquipmentTypes, demandFactors: {[n: number]: {typeDemand: number,typeDemandFactor: number}} ) => {
     let typeElements = elements.filter(e => e.category && (e.category === category))
+    const newDemandFactorPerType = {...demandFactors}
+    if (category === EquipmentTypes.G){
+      return newDemandFactorPerType
+    }
     let totalPower = 0 
     let quantity = 0
     typeElements.forEach((element) => {
@@ -56,7 +43,7 @@ export default function Type(props:any) {
     const {demand: typeDemand,demandFactor: typeDemandFactor} = (totalPower > 0 && quantity > 0)? DemandCalculator[Number(category)](quantity,totalPower):
     {demand:0,demandFactor:0}
     console.log({typeDemand,typeDemandFactor,category,quantity,totalPower})
-    const newDemandFactorPerType = {...demandFactors}
+    
     newDemandFactorPerType[category] = {typeDemand,typeDemandFactor} 
     console.log({newDemandFactorPerType,demandFactorPerType})
     return newDemandFactorPerType

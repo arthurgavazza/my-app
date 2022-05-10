@@ -1,11 +1,11 @@
 import { Grid, InputLabel, Select, MenuItem, TextField, SelectChangeEvent, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { calculateHouseElementLightPower, calculateHouseElementTUGNumber, ElementTypes } from "../core/data/houseElementPower";
+import { calculateHouseElementLightPower, calculateHouseElementTUGNumber, calculateHouseElementTUGPower, ElementTypes } from "../core/data/houseElementPower";
 import { IElement } from "./Dimensions";
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function HouseElement(props:any){
-    const [element,setElement] = useState<IElement>({type:ElementTypes.Sala,light:0,TUG:0,area:0,width:0,height:0})
+    const [element,setElement] = useState<IElement>({type:ElementTypes.Sala,light:0,TUG:0,area:0,width:0,height:0,TUGPower:0})
     const changeState = (elementData:IElement,index: number) => {
           setElement(elementData)
           props.setElementState(elementData,index)
@@ -18,7 +18,7 @@ export default function HouseElement(props:any){
     return (
         <Grid container  direction="row" spacing={3}>
 
-        <Grid item xs={3} sm={3} > 
+        <Grid item xs={3} sm={2.7} > 
           <InputLabel id="TipoComodo">Tipo Cômodo</InputLabel>
           <Select
             required
@@ -43,12 +43,12 @@ export default function HouseElement(props:any){
         </Grid>
         
         <Grid item xs={true}>
-          <InputLabel id="Comprimento)" shrink={true} >Comprimento (m)</InputLabel> 
+          <InputLabel id="Altura" shrink={true} >Altura(m)</InputLabel> 
             <TextField
             type='text'
             required
-            id="Comprimento"
-            name="Comprimento"
+            id="Altura"
+            name="Altura"
             fullWidth
             autoComplete="given-name"
             value = {element.width?.toFixed(2).toString() || "0"}
@@ -57,7 +57,7 @@ export default function HouseElement(props:any){
         </Grid>
 
         <Grid item xs={true}>
-          <InputLabel id="Largura" shrink={true}>Largura (m)</InputLabel> 
+          <InputLabel id="Largura" shrink={true}>Largura(m)</InputLabel> 
             <TextField
             required
             id="Largura"
@@ -85,7 +85,7 @@ export default function HouseElement(props:any){
         </Grid> 
 
         <Grid item xs={true}>
-          <InputLabel id="Area" shrink={true}>Área (m²)</InputLabel>
+          <InputLabel id="Area" shrink={true}>Área(m²)</InputLabel>
             <TextField
             disabled 
             defaultValue="Disabled"
@@ -100,7 +100,7 @@ export default function HouseElement(props:any){
         </Grid> 
 
         <Grid item xs={true}>
-          <InputLabel id="TUG (" shrink={true}>TUG (U)</InputLabel>
+          <InputLabel id="TUG (" shrink={true}>TUG(U)</InputLabel>
             <TextField
             required
             id="TUG"
@@ -113,20 +113,20 @@ export default function HouseElement(props:any){
         </Grid>
 
         <Grid item xs={true}>
-          <InputLabel id="POTTUG (" shrink={true}>Pot. TUG (VA)</InputLabel>
+          <InputLabel id="POTTUG (" shrink={true}>Pot. TUG(VA)</InputLabel>
             <TextField
             required
             id="POTTUG"
             name="POTTUG"
             fullWidth
             autoComplete="given-name"
-            value={(element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,TUG:parseFloat(event.target.value)},props.index)}
+            value={(element.height && element.width && element.type && element.TUG)? calculateHouseElementTUGPower(element).power : 0}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && element.TUG && changeState({...element,TUGPower:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
 
         <Grid item xs={true}>
-          <InputLabel id="Ilumin" shrink={true}>Iluminação (VA)</InputLabel>
+          <InputLabel id="Ilumin" shrink={true}>Pot. Ilumin(VA)</InputLabel>
             <TextField
             required
             id="Ilumin"

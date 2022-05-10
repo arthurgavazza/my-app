@@ -43,11 +43,11 @@ export const minTUGPowerMap = new Map<ElementTypes,MinTUGPower>([
 
 
 
-export function calculateHouseElementTUGPower(element:IElement): {light:number}{
-   
+export function calculateHouseElementTUGPower(element:IElement): {power:number}{
+    console.log(element,"hereeeee")
     const specialTypes = [ElementTypes.Cozinha,ElementTypes.Copa,ElementTypes.AreaServico]
     if(!element.TUG) {
-        throw new Error("Necessário ja ter os dados de TUG para cáculular a potência");
+        return {power:0}
     };
     if(element.type && specialTypes.includes(element.type)){
         let tugPower = 0
@@ -59,11 +59,11 @@ export function calculateHouseElementTUGPower(element:IElement): {light:number}{
              tugPower = 1200 + (element.TUG - 2)*100
          }
     return {
-       light:tugPower
+       power:tugPower
       }
     }else{
         return {
-            light: 100*element.TUG
+            power: 100*element.TUG
         }
     }
 }

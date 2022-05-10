@@ -80,8 +80,8 @@ export const DemandCalculator: {[n:number]: Function} = {
     },
 
     // Demanda referente a condicionador de ar tipo janela (f) 
-    [EquipmentTypes.F]: function (installedLoad:number){
-           return installedLoad
+    [EquipmentTypes.F]: function (numberOfDevices:number,installedLoad:number){
+           return {demandFactor:1,demand:installedLoad*numberOfDevices}
     },
 
     //Demanda referente a motores e máquinas de solda a motor (g)
