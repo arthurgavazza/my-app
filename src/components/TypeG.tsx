@@ -5,31 +5,42 @@ import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import HouseElement from './HouseElement';
 import { ElementTypes } from '../core/data/houseElementPower';
+import { EquipmentTypes } from '../core/data/demandFactor';
+import MotorElement from './MotorElement';
+import { DemandCalculator } from '../core/data/demandCalculator';
 
 
-export interface IElement  {
-  area?:number
-  type?:ElementTypes
-  height?:number
-  width?:number
-  TUG?:number
-  light?:number
-  perimeter?: number
-}
+export interface IMotorElement  {
+  power?: number | 0,
+  quantity?: number | 0,
+  demand?: number,
+  demandFactor?: number,
+  type?: string
+  category?: EquipmentTypes
+ }
 
 export default function TypeG() {
-  const [elements,setElements] = useState<IElement[]>([])
+  const [elements,setElements] = useState<IMotorElement[]>([])
 
   const onAddClick = () => {
       setElements([...elements,{}])    
   }
 
   useEffect(() => {
-   
+   const elementsPowers = elements.map(e => Number(e.power)*Number(e.quantity)) as number[]
+   const demand = DemandCalculator[EquipmentTypes.G](elementsPowers) as number 
+   const maxPowerElement = Math.max(...elementsPowers)
+   const updatedElements = elements.map(el => {
+     return {...el,
+      demand:el.power && el.quantity &&(el.power === maxPowerElement ? 0.5*el.power*el.quantity:el.power*el.quantity),
+      demandFactor:(el.power === maxPowerElement ? 0.5:1)
+    }
+   })
 
+   setElements(updatedElements)
   },[elements])
 
-  const setElementState = (state: IElement,index: number) => {
+  const setElementState = (state: IMotorElement,index: number) => {
         const currentElements = [...elements]
         currentElements[index] = state
         setElements(currentElements)
@@ -54,7 +65,7 @@ export default function TypeG() {
       return element && (
         <Grid container direction="row" key={index}>
         <Grid item sx={{ width: 1 }}>
-        <HouseElement key={index} onRemoveClick={onRemoveClick} setElementState={setElementState} index={index} initialState={element} />
+        <MotorElement key={index} onRemoveClick={onRemoveClick} setElementState={setElementState} index={index} initialState={element} />
         </Grid>
       
       

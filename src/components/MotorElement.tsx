@@ -7,7 +7,7 @@ import { Equipments } from "../core/types/Equipments";
 
 
 
-export default function EquipmentElement(props:any){
+export default function MotorElement(props:any){
     const [element,setElement] = useState<IEquipmentElement>({type:'',power:0, quantity:0 })
     const changeState = (elementData:IEquipmentElement,index: number) => {
           const elementCategory = elementData.type? Equipments[elementData.type].type : EquipmentTypes.B
@@ -34,7 +34,7 @@ export default function EquipmentElement(props:any){
             value={element.type || ""}
             
           >
-            {Object.entries(Equipments).map((o,index) => {
+            {Object.entries(Equipments).filter(o => o[1].type === EquipmentTypes.G).map((o,index) => {
               return (
                 
                 <MenuItem key={index} value={o[0]}>{o[1].name}</MenuItem>
