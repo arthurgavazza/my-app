@@ -17,7 +17,7 @@ export interface IEquipmentElement  {
  category?: EquipmentTypes
 }
 
-export default function Type() {
+export default function Type(props:any) {
   const [elements,setElements] = useState<IEquipmentElement[]>([])
   const [demandFactorPerType,setDemandFactorPerType] = useState<{[n: number]: {typeDemand: number,typeDemandFactor: number}}>({})
   const onAddClick = () => {
@@ -53,6 +53,9 @@ export default function Type() {
        demandFactorsObj = processElements(o[1] as EquipmentTypes,demandFactorsObj);
     })
     setDemandFactorPerType({...demandFactorsObj})
+    const updatedElemets = elements.map(element => ({...element,demandFactor: demandFactorPerType[element.category || 0].typeDemandFactor}))
+    setElements(updatedElemets)
+    props.setParent({demands:{...demandFactorsObj},elements:updatedElemets})
  },[elements])
 
   const setElementState = (state: IEquipmentElement,index: number) => {

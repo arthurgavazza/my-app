@@ -35,14 +35,14 @@ function Copyright() {
 
 const steps = ['Dimensões Residência - Ilumninação e TUG', 'Equipamentos - Tipo B','Equipamentos - Tipo C,D e E','Equipamentos - Tipo F,G e J','Review your order'];
 
-function getStepContent(step: number) {
+function getStepContent(step: number,cb?:any) {
   switch (step) {
     case 0:
-      return <Dimensions />;
+      return <Dimensions setParent={cb} />;
     case 1:
-      return <Type />;
+      return <Type setParent={cb}/>;
     case 2:
-      return <TypeG />;
+      return <TypeG setParent={cb}/>;
     case 3:
       return <Review />;
 
@@ -55,6 +55,18 @@ const theme = createTheme();
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [dimensionsData,setDimensionsData] = React.useState([])
+  const [typeGData,setTypeGData] = React.useState([])
+  const [typeData,setTypeData] = React.useState([])
+
+  const callbacks = new Map([
+    [0, (data:any) => setDimensionsData(data)],
+    [1,(data:any) => setTypeData(data)],
+    [2,(data:any) => setTypeGData(data)]
+  ])
+   
+  
+
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -108,7 +120,7 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep,callbacks.get(activeStep))}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

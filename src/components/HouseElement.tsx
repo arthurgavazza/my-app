@@ -7,9 +7,41 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function HouseElement(props:any){
     const [element,setElement] = useState<IElement>({type:ElementTypes.Sala,light:0,TUG:0,area:0,width:0,height:0,TUGPower:0})
     const changeState = (elementData:IElement,index: number) => {
+           console.log({elementData})
           setElement(elementData)
           props.setElementState(elementData,index)
     }
+
+    const handleWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(event.target.value)
+     const elementData =  {...element,
+      width:parseFloat(event.target.value),
+      area: ( element.height && parseFloat(event.target.value)*element.height) || element.area,
+      perimeter: ( element.height && 2*(parseFloat(event.target.value)+element.height)) || element.perimeter,
+    }
+
+    changeState(elementData,props.index)
+    }
+
+    const handleHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(event.target.value)
+      const elementData =  {...element,
+        height:parseFloat(event.target.value),
+        area: ( element.width && parseFloat(event.target.value)*element.width) || element.area,
+        perimeter: ( element.width && 2*(parseFloat(event.target.value)+element.width)) || element.perimeter,
+      }
+  
+      changeState(elementData,props.index)
+    }
+
+    const handleTUGChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const min = calculateHouseElementTUGNumber(element).TUG 
+      const value =  parseFloat(event.target.value)
+
+      changeState({...element,TUG: value > min ? value : min},props.index)
+    }
+
+
 
     useEffect(() => {
        //console.log(element,"I CHANGED")
@@ -51,8 +83,8 @@ export default function HouseElement(props:any){
             name="Altura"
             fullWidth
             autoComplete="given-name"
-            value = {element.width?.toFixed(2).toString() || "0"}
-            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,width:parseFloat(event.target.value)},props.index)}
+            value = {element.height?.toString() || "0"}
+            onChange={ handleHeightChange}
             />
         </Grid>
 
@@ -64,38 +96,36 @@ export default function HouseElement(props:any){
             name="Largura"
             fullWidth
             autoComplete="given-name"
-            value = {element.height?.toFixed(2).toString() || "0"}
-            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,height:parseFloat(event.target.value)},props.index)}
+            value = {element.width?.toString() || "0"}
+            onChange={ handleWidthChange}
             />
         </Grid>
 
         <Grid item xs={true}>
           <InputLabel id="Perimetro" shrink={true}>Perímetro(m)</InputLabel>
             <TextField
-            disabled 
             defaultValue="Disabled"
             required
             id="Perimetro"
             name="Perimetro"
             fullWidth
             autoComplete="given-name"
-            value={element.height && element.width ? 2*(element.height + element.width) : 0}
-            onChange= {(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,perimeter:parseFloat(event.target.value)},props.index)}
+            value={element.perimeter || (element.height && element.width ? 2*(element.height + element.width) : 0)}
+            onChange= {(event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,perimeter:parseFloat(event.target.value)},props.index)}
             />
         </Grid> 
 
         <Grid item xs={true}>
           <InputLabel id="Area" shrink={true}>Área(m²)</InputLabel>
             <TextField
-            disabled 
             defaultValue="Disabled"
             required
             id="Area"
             name="Area"
             fullWidth
             autoComplete="given-name"
-            value={element.height && element.width ? element.height*element.width : 0}
-            onChange= {(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,area:parseFloat(event.target.value)},props.index)}
+            value={element.area || ((element.height && element.width) ?element.height*element.width:0) }
+            onChange= {(event: React.ChangeEvent<HTMLInputElement>) =>  changeState({...element,area:parseFloat(event.target.value)||13},props.index)}
             />
         </Grid> 
 
@@ -107,8 +137,8 @@ export default function HouseElement(props:any){
             name="TUG"
             fullWidth
             autoComplete="given-name"
-            value={(element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => element.width && element.height && changeState({...element,TUG:parseFloat(event.target.value)},props.index)}
+            value={(element.TUG) || ((element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0)}
+            onChange={handleTUGChange}
             />
         </Grid>
 

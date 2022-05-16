@@ -33,7 +33,7 @@ export interface IElement  {
   TUGPower?:number
 }
 
-export default function Dimensions() {
+export default function Dimensions(props:any) {
   const [elements,setElements] = useState<IElement[]>([])
 
   const onAddClick = () => {
@@ -42,7 +42,7 @@ export default function Dimensions() {
 
   useEffect(() => {
    
-
+     props.setParent(elements)
   },[elements])
 
   const setElementState = (state: IElement,index: number) => {

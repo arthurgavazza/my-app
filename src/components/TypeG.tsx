@@ -19,7 +19,7 @@ export interface IMotorElement  {
   category?: EquipmentTypes
  }
 
-export default function TypeG() {
+export default function TypeG(props:any) {
   const [elements,setElements] = useState<IMotorElement[]>([])
 
   const onAddClick = () => {
@@ -38,6 +38,7 @@ export default function TypeG() {
    })
 
    setElements(updatedElements)
+   props.setParent({elements})
   },[elements])
 
   const setElementState = (state: IMotorElement,index: number) => {

@@ -1,4 +1,2 @@
-- perímetro, área e fator de potência editáveis 
-- potência da TUG 
-- + e - quantidade de TUG (editar pra mais - acima do valor mínimo)
+
 - melhorar float frontend 
