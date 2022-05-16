@@ -15,13 +15,14 @@ export interface IEquipmentElement  {
  demandFactor?: number,
  type?: string
  category?: EquipmentTypes
+ powerFactor?:number
 }
 
 export default function Type(props:any) {
   const [elements,setElements] = useState<IEquipmentElement[]>([])
   const [demandFactorPerType,setDemandFactorPerType] = useState<{[n: number]: {typeDemand: number,typeDemandFactor: number}}>({})
   const onAddClick = () => {
-      setElements([...elements,{power: 0, quantity: 0}])    
+      setElements([...elements,{power: 0, quantity: 0,powerFactor:1}])    
   }
 
   

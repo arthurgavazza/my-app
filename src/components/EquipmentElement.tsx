@@ -15,6 +15,13 @@ export default function EquipmentElement(props:any){
           props.setElementState({...elementData,category:elementCategory},index)
     }
 
+    const onPowerFactorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      let value = parseFloat(event.target.value)
+      // if (value > 1) value = 1
+      // if (value < -1 )value =-1
+      changeState({...element,powerFactor:value },props.index)
+    }
+
     useEffect(() => {
        //console.log(element,"I CHANGED")
        setElement(props.initialState)
@@ -53,7 +60,7 @@ export default function EquipmentElement(props:any){
             name="Potencia"
             fullWidth
             autoComplete="given-name"
-            value = {element.power?.toFixed(2).toString() || "0"}
+            value = {element.power?.toString() || "0"}
             onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,power:parseFloat(event.target.value)},props.index)}
             />
         </Grid>
@@ -80,7 +87,8 @@ export default function EquipmentElement(props:any){
             name="Fpotencia"
             fullWidth
             autoComplete="given-name"
-            value = {1}
+            value = {element.powerFactor}
+            onChange = {onPowerFactorChange}
             />
         </Grid>
 
