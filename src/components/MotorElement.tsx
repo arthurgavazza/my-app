@@ -59,20 +59,6 @@ export default function MotorElement(props:any){
         </Grid>
 
         <Grid item xs={true}>
-          <InputLabel id="quantidade" shrink={true} >quantidade (U)</InputLabel> 
-            <TextField
-            type='text'
-            required
-            id="quantidade"
-            name="quantidade"
-            fullWidth
-            autoComplete="given-name"
-            value = {element.quantity?.toFixed(0).toString() || "0"}
-            onChange={ (event: React.ChangeEvent<HTMLInputElement>) => changeState({...element,quantity:parseFloat(event.target.value)},props.index)}
-            />
-        </Grid>
-
-        <Grid item xs={true}>
           <InputLabel id="Fpotencia" shrink={true}>Fator de potência</InputLabel> 
             <TextField
             required
@@ -108,7 +94,7 @@ export default function MotorElement(props:any){
             name="demanda"
             fullWidth
             autoComplete="given-name"
-            value={(element.demandFactor && element.power && element.quantity) ? (element.demandFactor * element.power * element.quantity).toFixed(2) :0}
+            value={(element.demandFactor && element.power ) ? (element.demandFactor * element.power ).toFixed(2) :0}
             />
         </Grid>
 

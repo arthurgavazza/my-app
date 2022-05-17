@@ -35,7 +35,7 @@ function Copyright() {
 
 const steps = ['Dimensões Residência - Ilumninação e TUG', 'Equipamentos - Tipo B','Equipamentos - Tipo C,D e E','Equipamentos - Tipo F,G e J','Review your order'];
 
-function getStepContent(step: number,cb?:any) {
+function getStepContent(step: number,cb?:any,dimensions?:any,typeG?:any,type?:any) {
   switch (step) {
     case 0:
       return <Dimensions setParent={cb} />;
@@ -44,7 +44,7 @@ function getStepContent(step: number,cb?:any) {
     case 2:
       return <TypeG setParent={cb}/>;
     case 3:
-      return <Review />;
+      return <Review dimensions={dimensions} typeG={typeG} type={type} />;
 
     default:
       throw new Error('Unknown step');
@@ -120,7 +120,7 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep,callbacks.get(activeStep))}
+                {getStepContent(activeStep,callbacks.get(activeStep),dimensionsData,typeGData,typeData)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

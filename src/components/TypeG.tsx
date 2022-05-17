@@ -3,8 +3,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import HouseElement from './HouseElement';
-import { ElementTypes } from '../core/data/houseElementPower';
 import { EquipmentTypes } from '../core/data/demandFactor';
 import MotorElement from './MotorElement';
 import { DemandCalculator } from '../core/data/demandCalculator';
@@ -27,12 +25,12 @@ export default function TypeG(props:any) {
   }
 
   useEffect(() => {
-   const elementsPowers = elements.map(e => Number(e.power)*Number(e.quantity)) as number[]
+   const elementsPowers = elements.map(e => Number(e.power)) as number[]
    const demand = DemandCalculator[EquipmentTypes.G](elementsPowers) as number 
    const maxPowerElement = Math.max(...elementsPowers)
    const updatedElements = elements.map(el => {
      return {...el,
-      demand:el.power && el.quantity &&(el.power === maxPowerElement ? 0.5*el.power*el.quantity:el.power*el.quantity),
+      demand:el.power && el.quantity &&(el.power === maxPowerElement ? 0.5*el.power:el.power),
       demandFactor:(el.power === maxPowerElement ? 0.5:1)
     }
    })
