@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -20,6 +20,7 @@ export interface IEquipmentElement  {
 
 export default function Type(props:any) {
   const [elements,setElements] = useState<IEquipmentElement[]>([])
+  const elementsRef = useRef<IEquipmentElement[]>([])
   const [demandFactorPerType,setDemandFactorPerType] = useState<{[n: number]: {typeDemand: number,typeDemandFactor: number}}>({})
   const onAddClick = () => {
       setElements([...elements,{power: 0, quantity: 0,powerFactor:1}])    
@@ -55,8 +56,10 @@ export default function Type(props:any) {
     })
     setDemandFactorPerType({...demandFactorsObj})
     const updatedElemets = elements.map(element => ({...element,demandFactor: demandFactorPerType[element.category || 0].typeDemandFactor}))
-    setElements(updatedElemets)
+    //setElements(updatedElemets)
+    elementsRef.current = updatedElemets
     props.setParent({demands:{...demandFactorsObj},elements:updatedElemets})
+    console.log(updatedElemets,'hehhhhhhh')
  },[elements])
 
   const setElementState = (state: IEquipmentElement,index: number) => {

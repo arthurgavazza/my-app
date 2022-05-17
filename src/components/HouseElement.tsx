@@ -15,13 +15,15 @@ export default function HouseElement(props:any){
     const changeState = (elementData:IElement,index: number) => {
            console.log({elementData})
           setElement(elementData)
-          props.setElementState(elementData,index)
+          console.log('changingxxx',{...elementData,TUGPower,light,TUG})
+          props.setElementState({...elementData,TUGPower,light,TUG},index)
     }
 
     const handleWidthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       console.log(event.target.value)
       const tug = (element.TUG) || ((element.height && element.width && element.type)? calculateHouseElementTUGNumber(element).TUG : 0)
       setTUG(tug)
+      setWidth(parseFloat(event.target.value))
      const elementData =  {...element,
       width:parseFloat(event.target.value),
       area: ( element.height && parseFloat(event.target.value)*element.height) || element.area,
@@ -47,6 +49,7 @@ export default function HouseElement(props:any){
         TUGPower: (element.height && element.width && element.type && element.TUG)? calculateHouseElementTUGPower(element).power : 0
       }
       setTUG(tug)
+      setHeight(parseFloat(event.target.value))
       changeState(elementData,props.index)
     }
 
@@ -70,13 +73,14 @@ export default function HouseElement(props:any){
     useEffect(() => {
        console.log(element,"I CHANGED")
        setElement(props.initialState)
-      const newTUGPower = (element.height && element.width && element.type && element.TUG)? calculateHouseElementTUGPower({...element,TUG}).power : 0
+      const newTUGPower = (element.height && element.width && element.type && TUG)? calculateHouseElementTUGPower({...element,TUG}).power : 0
       const newLight = (element.height && element.width && element.type)? calculateHouseElementLightPower({...element,TUG}).light : 0
       setTUGPower(newTUGPower)
       setLight(newLight)
+      console.log({newLight,newTUGPower})
       setElement({...element,TUGPower:newTUGPower,light:newLight})
       props.setElementState({...element,TUGPower:newTUGPower,light:newLight},props.index)
-    },[props,TUG,light,area,width,TUGPower])
+    },[TUG,area,width,height])
     return (
         <Grid container  direction="row" spacing={3}>
 
@@ -154,7 +158,7 @@ export default function HouseElement(props:any){
             name="Area"
             fullWidth
             autoComplete="given-name"
-            value={element.area || ((element.height && element.width) ?element.height*element.width:0) }
+            value={element.area || ((element.height && element.width) ? element.height*element.width:0) }
             onChange= {(event: React.ChangeEvent<HTMLInputElement>) =>  changeState({...element,area:parseFloat(event.target.value)||13},props.index)}
             />
         </Grid> 

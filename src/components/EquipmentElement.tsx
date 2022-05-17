@@ -9,6 +9,7 @@ import { Equipments } from "../core/types/Equipments";
 
 export default function EquipmentElement(props:any){
     const [element,setElement] = useState<IEquipmentElement>({type:'',power:0, quantity:0 })
+    
     const changeState = (elementData:IEquipmentElement,index: number) => {
           const elementCategory = elementData.type? Equipments[elementData.type].type : EquipmentTypes.B
           setElement({...elementData,category:elementCategory})
@@ -25,9 +26,9 @@ export default function EquipmentElement(props:any){
     useEffect(() => {
        //console.log(element,"I CHANGED")
        setElement(props.initialState)
-       props.setElementState(element,props.index)
+       //props.setElementState(element,props.index)
        console.log(props)
-    },[props,element])
+    },[props])
     return (
         <Grid container  direction="row" spacing={3}>
 
