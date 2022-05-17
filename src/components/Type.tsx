@@ -50,7 +50,7 @@ export default function Type(props:any) {
     return newDemandFactorPerType
   }
     let demandFactorsObj = demandFactorPerType
-    Object.entries(EquipmentTypes).forEach( o => {
+    Object.entries(EquipmentTypes).filter(e => !isNaN(Number(e[1]))).forEach( o => {
        demandFactorsObj = processElements(o[1] as EquipmentTypes,demandFactorsObj);
     })
     setDemandFactorPerType({...demandFactorsObj})

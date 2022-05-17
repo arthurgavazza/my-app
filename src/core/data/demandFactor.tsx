@@ -10,6 +10,19 @@ export enum EquipmentTypes {
     I,
     J,
 }
+
+export const EquipmentTypesNameMap = new Map([
+    [0,'Equipamentos Tipo - A'],
+    [1,'Equipamentos Tipo - B'],
+    [2,'Equipamentos Tipo - C'],
+    [3,'Equipamentos Tipo - D'],
+    [4,'Equipamentos Tipo - E'],
+    [5,'Equipamentos Tipo - F'],
+    [6,'Equipamentos Tipo - G'],
+    [7,'Equipamentos Tipo - H'],
+    [8,'Equipamentos Tipo - I'],
+    [9,'Equipamentos Tipo - J']
+])
 export type AEquipmentsData = {
     installedLoad: {
         min: number | null,
