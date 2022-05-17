@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Grid from '@mui/material/Grid';
 import { IElement } from './Dimensions';
 import { EquipmentTypes, EquipmentTypesNameMap } from '../core/data/demandFactor';
+import { DemandCalculator } from '../core/data/demandCalculator';
 
 
 
@@ -23,6 +24,8 @@ export default function Review(props:any) {
    },0)
  }
 
+ const installedLoad = transformDimensions()
+
  const transformTypeG = () => {
    return typeG.elements.reduce((prev,current) => {
         return prev + (Number(current.demand) || 0)
@@ -34,7 +37,7 @@ export default function Review(props:any) {
       //console.log({elementtype})
       if(parseInt(elementtype) === EquipmentTypes.A as number){
         console.log({elementtype})
-        return {type:elementtype,demand: transformDimensions()}
+        return {type:elementtype,demand: 1000*DemandCalculator[0](installedLoad/1000)}
       }
       return {type:elementtype,demand: type.demands[elementtype as unknown as number].typeDemand}
     })
@@ -47,6 +50,12 @@ export default function Review(props:any) {
       <Typography variant="h6" gutterBottom>
         Sumário Demandas
       </Typography>
+      <List disablePadding>
+      <ListItem key={0} sx={{ py: 1, px: 0 }}>
+            <ListItemText primary={'Carga instalada - TUG e Iluminação'}  />
+            <Typography variant="body2">{installedLoad.toFixed(2)} W</Typography>
+      </ListItem>
+      </List>
       <List disablePadding>
         {transformType().map((type) => {
 

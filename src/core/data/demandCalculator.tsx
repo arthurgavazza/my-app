@@ -25,6 +25,7 @@ export const DemandCalculator: {[n:number]: Function} = {
 
     // Fatores de Demanda Referentes a Tomadas e Iluminação Residencial
     [EquipmentTypes.A]: function(installedLoad:number) {
+        console.log(installedLoad)
         const ATable:AEquipmentsData[] = EquipmentTablesMap.get(EquipmentTypes.A)
         const tableElement = ATable.filter( table => {
             let greaterThanMin = true
@@ -38,6 +39,7 @@ export const DemandCalculator: {[n:number]: Function} = {
             return greaterThanMin && lessThanMax
         })
         if(tableElement.length > 0){
+            console.log(tableElement[0].demandFactor* installedLoad)
             return tableElement[0].demandFactor* installedLoad
         }else{
             throw new Error("Carga não corresponde a nenhum valor da tabela")
