@@ -30,7 +30,7 @@ export default function TypeG(props:any) {
    const maxPowerElement = Math.max(...elementsPowers)
    const updatedElements = elements.map(el => {
      return {...el,
-      demand:el.power && el.quantity &&(el.power === maxPowerElement ? 0.5*el.power:el.power),
+      demand:el.power  &&(el.power === maxPowerElement ? 0.5*el.power:el.power),
       demandFactor:(el.power === maxPowerElement ? 0.5:1)
     }
    })

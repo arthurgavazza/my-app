@@ -25,8 +25,9 @@ export default function EquipmentElement(props:any){
     useEffect(() => {
        //console.log(element,"I CHANGED")
        setElement(props.initialState)
+       props.setElementState(element,props.index)
        console.log(props)
-    },[props])
+    },[props,element])
     return (
         <Grid container  direction="row" spacing={3}>
 
