@@ -18,7 +18,8 @@ export default function Review(props:any) {
 
  const transformDimensions = () => {
    return dimensions.reduce((prev,current) => {
-     return prev + (Number(current.TUGPower) || 0)
+     console.log({current},'here')
+     return prev + (Number(current.TUGPower) || 0) + (Number(current.light) || 0)
    },0)
  }
 
@@ -29,15 +30,15 @@ export default function Review(props:any) {
  }
 
  const transformType = () =>{
-    return Object.keys(type.demands).map( (elementtype) =>{
-      if(elementtype as unknown as number  === EquipmentTypes.A as number){
+    const typesData = Object.keys(type.demands).map( (elementtype) =>{
+      //console.log({elementtype})
+      if(parseInt(elementtype) === EquipmentTypes.A as number){
+        console.log({elementtype})
         return {type:elementtype,demand: transformDimensions()}
-      }
-      if(elementtype as unknown as number === EquipmentTypes.G as number){
-         return {type: elementtype,demand: transformTypeG()}
       }
       return {type:elementtype,demand: type.demands[elementtype as unknown as number].typeDemand}
     })
+    return [...typesData,{type: Number(EquipmentTypes.G).toString() ,demand: transformTypeG()}]
  }
   
 
@@ -59,7 +60,7 @@ export default function Review(props:any) {
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            {transformType().reduce((prev,current) => (prev + current.demand),0)}W
+            {transformType().reduce((prev,current) => parseFloat((prev + current.demand).toFixed(2)),0)}W
           </Typography>
         </ListItem>
       </List>

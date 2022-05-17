@@ -68,13 +68,14 @@ export default function HouseElement(props:any){
 
 
     useEffect(() => {
-       //console.log(element,"I CHANGED")
+       console.log(element,"I CHANGED")
        setElement(props.initialState)
       const newTUGPower = (element.height && element.width && element.type && element.TUG)? calculateHouseElementTUGPower({...element,TUG}).power : 0
       const newLight = (element.height && element.width && element.type)? calculateHouseElementLightPower({...element,TUG}).light : 0
       setTUGPower(newTUGPower)
       setLight(newLight)
       setElement({...element,TUGPower:newTUGPower,light:newLight})
+      props.setElementState({...element,TUGPower:newTUGPower,light:newLight},props.index)
     },[props,TUG,light,area,width,TUGPower])
     return (
         <Grid container  direction="row" spacing={3}>

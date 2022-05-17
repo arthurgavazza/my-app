@@ -33,7 +33,7 @@ function Copyright() {
   );
 }
 
-const steps = ['Dimensões Residência - Ilumninação e TUG', 'Equipamentos - Tipo B','Equipamentos - Tipo C,D e E','Equipamentos - Tipo F,G e J','Review your order'];
+const steps = ['Dimensões Residência - Ilumninação e TUG', 'Equipamentos - Tipo B-F e J','Equipamentos - Tipo G','Sumário Demandas'];
 
 function getStepContent(step: number,cb?:any,dimensions?:any,typeG?:any,type?:any) {
   switch (step) {
